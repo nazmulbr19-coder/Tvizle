@@ -43,7 +43,7 @@ jobs:
 
       - name: Build .cs3 plugins and plugins.json
         working-directory: repo_src
-        run: gradle make makePluginsJson --no-daemon
+        run: gradle make makePluginsJson --no-daemon --stacktrace
 
       - name: Prepare builds branch output
         run: |

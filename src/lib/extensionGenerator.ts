@@ -36,7 +36,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:8.7.3")
         classpath("com.github.recloudstream:gradle:-SNAPSHOT")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0")
     }
 }
 
@@ -90,10 +90,9 @@ subprojects {
     }
 
     dependencies {
-        val cloudstream by configurations
         val implementation by configurations
 
-        cloudstream("com.lagradost:cloudstream3:pre-release")
+        implementation("com.github.recloudstream.cloudstream:library:-SNAPSHOT")
 
         implementation(kotlin("stdlib"))
         implementation("com.github.Blatzar:NiceHttp:0.4.11")
@@ -146,13 +145,12 @@ cloudstream {
 
   const pluginEntryKt = `package com.tvizle
 
-import android.content.Context
+import com.lagradost.cloudstream3.plugins.BasePlugin
 import com.lagradost.cloudstream3.plugins.CloudstreamPlugin
-import com.lagradost.cloudstream3.plugins.Plugin
 
 @CloudstreamPlugin
-class TvizlePlugin : Plugin() {
-    override fun load(context: Context) {
+class TvizlePlugin : BasePlugin() {
+    override fun load() {
         registerMainAPI(TvizleProvider())
     }
 }
@@ -298,7 +296,7 @@ class TvizleProvider : MainAPI() {
         return newLiveStreamLoadResponse(title, watchUrl, watchUrl) {
             this.posterUrl = poster
             this.plot = summaryParts.joinToString(" • ")
-            this.tags = categories
+            this@newLiveStreamLoadResponse.tags = categories
         }
     }
 
@@ -545,7 +543,7 @@ jobs:
 
       - name: Build .cs3 plugins and plugins.json
         working-directory: repo_src
-        run: gradle make makePluginsJson --no-daemon
+        run: gradle make makePluginsJson --no-daemon --stacktrace
 
       - name: Prepare builds branch output
         run: |

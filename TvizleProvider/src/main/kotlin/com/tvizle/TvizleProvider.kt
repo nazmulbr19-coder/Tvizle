@@ -138,7 +138,7 @@ class TvizleProvider : MainAPI() {
         return newLiveStreamLoadResponse(title, watchUrl, watchUrl) {
             this.posterUrl = poster
             this.plot = summaryParts.joinToString(" • ")
-            this.tags = categories
+            this@newLiveStreamLoadResponse.tags = categories
         }
     }
 
