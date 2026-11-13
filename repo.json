@@ -1,0 +1,8 @@
+{
+  "name": "TVizle.tr Extensions",
+  "description": "TVizle.tr live TV extension powered by iptv-org open data",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/nazmulbr19-coder/Tvizle/builds/plugins.json"
+  ]
+}

@@ -1,0 +1,22 @@
+[
+    {
+        "url": "https://raw.githubusercontent.com/nazmulbr19-coder/Tvizle/builds/TvizleProvider.cs3",
+        "status": 1,
+        "version": 1,
+        "name": "TvizleProvider",
+        "internalName": "TvizleProvider",
+        "authors": [
+            "personal"
+        ],
+        "description": "TVizle.tr canli TV kanallari ve iptv-org acik kaynakli HLS yayinlari.",
+        "fileSize": 27010,
+        "repositoryUrl": "https://github.com/nazmulbr19-coder/Tvizle",
+        "language": "tr",
+        "tvTypes": [
+            "Live"
+        ],
+        "iconUrl": "https://tvizle.tr/icon-512.png",
+        "apiVersion": 1,
+        "fileHash": "sha256-e2d962e5a7488f9306af3ce36742d9bc88365b09da8aa3a65314ef7e6178ce36"
+    }
+]
