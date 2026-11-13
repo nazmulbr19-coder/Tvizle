@@ -1,0 +1,6 @@
+{
+  "name": "TVizle Cloudstream Studio",
+  "description": "Cloudstream 3 Kotlin extension builder, live channel explorer, and HLS stream tester for tvizle.tr.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

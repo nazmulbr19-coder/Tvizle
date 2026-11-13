@@ -1,0 +1,66 @@
+name: Build Cloudstream Extensions
+
+concurrency:
+  group: "build"
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - "*.md"
+      - "src/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          path: src
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.12"
+
+      - name: Build .cs3 plugins and plugins.json
+        working-directory: src
+        run: gradle make makePluginsJson --no-daemon
+
+      - name: Prepare builds branch output
+        run: |
+          mkdir -p builds_out
+          find src -path "*/build/*.cs3" -exec cp {} builds_out/ \;
+          cp src/build/plugins.json builds_out/plugins.json
+          node -e '
+            const fs = require("fs");
+            const repo = process.env.GITHUB_REPOSITORY;
+            const raw = JSON.parse(fs.readFileSync("src/repo.json", "utf8"));
+            raw.pluginLists = [`https://raw.githubusercontent.com/${repo}/builds/plugins.json`];
+            fs.writeFileSync("builds_out/repo.json", JSON.stringify(raw, null, 2) + "\n");
+          '
+
+      - name: Publish to builds branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: builds
+          publish_dir: ./builds_out
+          force_orphan: true
